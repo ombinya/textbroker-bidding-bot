@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 import telegram
 import winsound
 
+# Get the path for the root folder of the project
 projectRootFolder = os.path.dirname(os.path.abspath(__file__))
 
 userDataPath = projectRootFolder + r"\User Data"
@@ -76,23 +77,19 @@ with browser.get_driver() as driver:
                     terminate = tbAccount.openOrderLinks(searchResultsTable)
                 except:
                     pass
-
-                alertSoundPath = projectRootFolder + r"\alert.wav"
-                winsound.PlaySound(alertSoundPath, winsound.SND_FILENAME)
-
-                # If you don't want Telegram notifications, comment out this line
-                # ---------------------------------------------------------------------
-                telegramBot.sendMessage(
-                    chat_id=telegramChatId, text='New Order')
-                # ---------------------------------------------------------------------
         except:
             pass
 
-        try:
-            # You are currently in the submit page, meaning the order is yours to complete
-            if "submit" in driver.current_url:
-                terminate = True
-        except:
-            pass
+        # You are currently in the submit page, meaning the order is yours to complete
+        if "submit" in driver.current_url:
+            terminate = True
 
+    alertSoundPath = projectRootFolder + r"\alert.wav"
+    winsound.PlaySound(alertSoundPath, winsound.SND_FILENAME)
+
+    # If you don't want Telegram notifications, comment out this line
+    # ---------------------------------------------------------------------
+    telegramBot.sendMessage(
+        chat_id=telegramChatId, text='New Order')
+    # ---------------------------------------------------------------------
     input("Enter anything and press ENTER to close the browser.")

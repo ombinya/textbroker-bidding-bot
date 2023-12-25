@@ -8,6 +8,11 @@ class TBAccount:
         self.password = password
 
     def access_account(self):
+        """Navigates to the Log In page and signs in to the Textbroker account. Since the User Data folder is included in the project, 
+        it is likely that the Textbroker site will remember your account. In such a case, the 
+        Textbroker account will be signed in automatically.
+        """
+
         self.driver.get("https://www.textbroker.com")
 
         # Find the Log in link in the navigation bar and click it
@@ -27,6 +32,9 @@ class TBAccount:
             self.sign_in()
 
     def sign_in(self):
+        """Fills in user credentials and clicks the Log In button
+        """
+
         while True:
             try:
                 radioGroup = self.driver.find_element(
@@ -57,42 +65,53 @@ class TBAccount:
                 return
 
     def openOrderLinks(self, orderTable):
+        """Attempts to open each order link in the order table and takes an order. 
+        If an order is captured, any attempt to continue looking for orders should be terminated.
+
+        Keyword arguments:
+        orderTable -- table element which carries order links.
+        Return: True, if the bot successfully captures an order. Otherwise, False.
+        """
+
         linkTags = orderTable.find_elements(By.TAG_NAME, "a")
 
         for linkTag in linkTags:
-            while True:
-                try:
-                    linkTag.click()
-                except:
-                    break
-            try:
-                tableText = orderTable.text
+            linkTag.click()
 
-                if "another author." in tableText:
-                    print("Taken by another author")
-                    continue
-            except:
-                pass
+            tableText = orderTable.text
 
+            # The order has been taken by another author
+            if "another author." in tableText:
+                continue
+
+            # The phrase 'Article details' will only appear if the order is yours for the taking
             if "Article details" in self.driver.page_source:
                 self.driver.refresh()
                 terminate = True
 
+            # If the accept button is visible, click it to agree to write
+            # Comment out these lines if you prefer to read the instructions first before accepting to write
+            # ----------------------------------------------------------------------------------------------
             try:
                 self.agree_to_write()
-                terminate = True
-                print("Order locked!")
                 break
             except:
                 pass
+            # ----------------------------------------------------------------------------------------------
 
-            # Order is yours
+            # Order is yours, no need to go on to the other order links.
             if terminate:
                 return True
 
+        # False
         return terminate
 
     def get_results_table(self):
+        """Locate the table element representing the search results table and return it.
+
+        Return: table element representing the search results table
+        """
+
         basicTables = self.driver.find_elements(
             By.XPATH, "//table[@class='basic']")
         searchResultsTable = None
@@ -102,10 +121,12 @@ class TBAccount:
                 searchResultsTable = t
                 break
 
-        assert searchResultsTable
         return searchResultsTable
 
     def agree_to_write(self):
+        """Locate the accept order button and click it.
+        """
+
         tables = self.driver.find_elements(By.TAG_NAME, "table")
 
         for table in tables:
