@@ -3,7 +3,7 @@ Textbroker account and capture available orders. It is
 useful because it relieves you of the need to contantly
 refresh orders page and keep your eye on the screen to check
 whether there are new orders available. You can simply run
-the program and wait for a an alert sound and/or a Telegram
+the program and wait for an alert sound and/or a Telegram
 notification whenever an order has been captured.
 
 ## Key Technologies
@@ -19,7 +19,7 @@ You'll need to do the following before you use this bot:
    follow the installation instructions in the following
    link: https://www.python.org/about/gettingstarted/
 2. Install required libraries (Selenium and Telegram). You
-   can do this by running this command in a terminal openned
+   can do this by running this command in a terminal opened
    in the root folder of the project:
 
     ```
@@ -37,7 +37,7 @@ You'll need to do the following before you use this bot:
 
     ```
 
-4. Still in the `run.py` file, Enter your Telegram bot token
+4. Still in the `run.py` file, enter your Telegram bot token
    and your personal Telegram Chat ID in the following
    lines:
 
@@ -59,12 +59,12 @@ You'll need to do the following before you use this bot:
    the version of your Chrome browser. Extract the content
    of the downloaded Zip file and move the chromedriver.exe
    to the root folder of the folder.
-7. Download any .wav file which will serve as your alert
+7. Download a .wav file which will serve as your alert
    sound. Rename the file to 'alert.wav' and move it to the
    root folder of the project.
 
 Now, you can run the project by running the following
-command in a terminal openned in the root folder of the
+command in a terminal opened in the root folder of the
 project:
 
 ```
